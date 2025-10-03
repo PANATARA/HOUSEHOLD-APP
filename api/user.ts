@@ -26,24 +26,18 @@ export async function getMeSettings(): Promise<UserSettings> {
 export async function updateMeSettings(
   settings_data: Partial<UserSettings>,
 ): Promise<UserSettings> {
-  const response = await api.patch<UserSettings>(
-    "/users/me/settings",
-    settings_data,
-  );
+  const response = await api.patch<UserSettings>("/users/me/settings", settings_data);
   return response.data;
 }
 
 export async function getUserAvatar(
   user_id: string,
-): Promise<{ avatar_url: string }> {
+): Promise<{ avatar_url: string | null }> {
   const response = await api.get<{ avatar_url: string | null }>(
     `/users/${user_id}/avatar`,
   );
-  // временная заглушка пока не исправлен бекенд
   return {
-    avatar_url:
-      response.data.avatar_url ??
-      "https://abrakadabra.fun/uploads/posts/2022-02/1644169638_1-abrakadabra-fun-p-avatarka-s-ulibkoi-1.jpg",
+    avatar_url: response.data.avatar_url,
   };
 }
 

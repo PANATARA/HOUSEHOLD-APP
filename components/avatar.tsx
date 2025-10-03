@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 
 type AvatarProps = {
   size: number;
-  url: string | undefined;
+  url: string | null | undefined;
   is_pressable: boolean;
   onPress?: () => void;
   style?: object;

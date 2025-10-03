@@ -39,8 +39,7 @@ export async function generateFamilyInviteToken(
   user_params: InviteUserParams,
 ): Promise<InviteQrCodeResponse> {
   const response = await api.post<InviteQrCodeResponse>("/families/invite", {
-    should_confirm_chore_completion:
-      user_params.should_confirm_chore_completion,
+    should_confirm_chore_completion: user_params.should_confirm_chore_completion,
   });
   return response.data;
 }
@@ -50,9 +49,7 @@ export async function joinMeToFamily(invite_token: string): Promise<boolean> {
   return true;
 }
 
-export async function uploadFamilyAvatar(
-  payload: FamilyUploadAvatar,
-): Promise<Family> {
+export async function uploadFamilyAvatar(payload: FamilyUploadAvatar): Promise<Family> {
   const formData = new FormData();
   formData.append("file", {
     uri: payload.file.uri,

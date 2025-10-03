@@ -1,15 +1,71 @@
+import { getChores, getChoresCompletion, getChoresConfirmations } from "@/api/chore";
+import { getMeFamily } from "@/api/family";
 import Avatar from "@/components/avatar";
 import Block from "@/components/Block";
-import { chores, topMembers } from "@/constants/fakeData";
+import ConfirmationCard, { ChoreHistoryCard, ChoreItem } from "@/components/chores";
+import { PressableText } from "@/components/pressableText";
+import { topMembers } from "@/constants/fakeData";
+import {
+  ChoreCompletionResponse,
+  ChoreConfirmationResponse,
+  Chores,
+  StatusType,
+} from "@/types/chores";
+import { FamilyMembersResponse } from "@/types/family";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { router } from "expo-router";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { router, useFocusEffect } from "expo-router";
+import React, { useCallback, useState } from "react";
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
+  const [refreshing, setRefreshing] = useState(false);
+  const [familyData, setFamilyData] = useState<FamilyMembersResponse | null>(null);
+  const [choresData, setChoresData] = useState<Chores | null>(null);
+  const [choresHistoryData, setChoresHistoryData] = useState<
+    ChoreCompletionResponse[] | null
+  >(null);
+  const [choresConfirmData, setchoresConfirmData] = useState<
+    ChoreConfirmationResponse[] | null
+  >(null);
+
+  const fetchData = async () => {
+    const responseFamily = await getMeFamily();
+    setFamilyData(responseFamily);
+    const responseChores = await getChores();
+    setChoresData(responseChores);
+    const responseChoresHistory = await getChoresCompletion({
+      offset: 0,
+      limit: 5,
+    });
+    setChoresHistoryData(responseChoresHistory);
+    const responseChoresConfirm = await getChoresConfirmations(StatusType.AWAITS);
+    setchoresConfirmData(responseChoresConfirm);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+    }, []),
+  );
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await fetchData();
+    setRefreshing(false);
+  }, []);
+
   const tabBarHeight = useBottomTabBarHeight();
+
   return (
-    <SafeAreaView style={{ alignItems: "center", flex: 1 }}>
+    <SafeAreaView style={{ alignItems: "center", flex: 1, backgroundColor: "#F0F4F8" }}>
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={[
@@ -18,12 +74,15 @@ export default function HomeScreen() {
           },
         ]}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       >
         <Block>
           <View style={styles_1.familyCard}>
             <Avatar
               size={90}
-              url={""}
+              url={familyData?.family.avatar_url}
               is_pressable={true}
               onPress={() => {
                 router.navigate("/");
@@ -31,7 +90,7 @@ export default function HomeScreen() {
             />
 
             <View style={styles_1.familyInfoWrapper}>
-              <Text style={styles_1.familyName}>Название</Text>
+              <Text style={styles_1.familyName}>{familyData?.family.name}</Text>
               <View style={styles_1.statItem}>
                 <View style={styles_1.statRow}>
                   <Text style={styles_1.statLabel}>Общий опыт семьи:</Text>
@@ -67,7 +126,7 @@ export default function HomeScreen() {
                   }}
                 >
                   <View style={styles_2.memberButtonContent}>
-                    <Avatar size={40} url={member.avatarURL} is_pressable={false} />
+                    <Avatar size={40} url={undefined} is_pressable={false} />
                     <Text style={styles_2.memberName}>{member.name}</Text>
                     <View style={{ flex: 1 }} />
                     <Text style={styles_2.memberCount}>
@@ -84,17 +143,38 @@ export default function HomeScreen() {
           style={{ backgroundColor: null, padding: 0, margin: 6 }}
         >
           <View style={styles_3.choresWrapper}>
-            {chores.map((chore) => (
-              <TouchableOpacity
-                key={chore.id}
-                style={styles_3.choreCard}
-                onPress={() => console.log(`Выполнил: ${chore.title}`)}
-              >
-                <Text style={styles_3.choreIcon}>{chore.icon}</Text>
-                <Text style={styles_3.choreText}>{chore.title}</Text>
-              </TouchableOpacity>
+            {choresData?.chores.slice(0, 8).map((item) => (
+              <ChoreItem key={item.id} chore={item} />
             ))}
           </View>
+        </Block>
+        <Block
+          blockTitle="История заданий"
+          style={{ backgroundColor: null, padding: 0, margin: 6 }}
+        >
+          <View style={styles_4.choresHistoryWrapper}>
+            {choresHistoryData?.slice(0, 8).map((item) => (
+              <ChoreHistoryCard key={item.id} item={item} />
+            ))}
+          </View>
+          <PressableText to="modals/newmodal">Показать всё</PressableText>
+        </Block>
+        <Block
+          blockTitle="Необходимо подтвердить"
+          style={{ backgroundColor: null, padding: 0, margin: 6 }}
+        >
+          <View style={styles_5.choresHistoryWrapper}>
+            {choresConfirmData?.slice(0, 4).map((item) => (
+              <ConfirmationCard
+                key={item.id}
+                itemId={item.id}
+                chore_completion={item.chore_completion}
+                onApprove={async () => {}}
+                onCancel={async () => {}}
+              />
+            ))}
+          </View>
+          <PressableText to="/modals/modal">Показать всё</PressableText>
         </Block>
       </ScrollView>
     </SafeAreaView>
@@ -123,12 +203,12 @@ const styles_1 = StyleSheet.create({
     alignItems: "center",
   },
   statLabel: {
-    color: "white",
+    color: "gray",
     fontSize: 17,
     fontWeight: "500",
   },
   statValue: {
-    color: "white",
+    color: "gray",
     fontSize: 17,
     fontWeight: "700",
   },
@@ -163,22 +243,16 @@ const styles_3 = StyleSheet.create({
     gap: 8,
     justifyContent: "space-between",
   },
-  choreCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#a1a1a1ff",
-    borderRadius: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    width: "48%",
+});
+
+const styles_4 = StyleSheet.create({
+  choresHistoryWrapper: {
+    gap: 8,
   },
-  choreIcon: {
-    fontSize: 20,
-    marginRight: 8,
-  },
-  choreText: {
-    fontSize: 16,
-    fontWeight: "600",
-    flexShrink: 1,
+});
+
+const styles_5 = StyleSheet.create({
+  choresHistoryWrapper: {
+    gap: 8,
   },
 });
