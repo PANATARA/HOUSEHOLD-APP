@@ -26,14 +26,6 @@ export default function ProtectedLayout() {
         }}
       />
       <Stack.Screen
-        name="modals/modal"
-        options={{ presentation: "modal", title: "Modal" }}
-      />
-      <Stack.Screen
-        name="modals/newmodal"
-        options={{ presentation: "modal", title: "Modal" }}
-      />
-      <Stack.Screen
         name="modals/choreModal"
         options={{ presentation: "modal", title: "Complete chore" }}
       />
