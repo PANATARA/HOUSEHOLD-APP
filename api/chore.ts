@@ -43,3 +43,11 @@ export async function getChoresConfirmations(
   });
   return response.data;
 }
+
+export async function createChoreCompletion(
+  chore_id: string,
+  message: string,
+): Promise<boolean> {
+  const response = await api.post(`/chores-completions/${chore_id}`, { message });
+  return response.status >= 200 && response.status < 300;
+}

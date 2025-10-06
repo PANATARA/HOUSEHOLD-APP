@@ -26,8 +26,32 @@ export default function ProtectedLayout() {
         }}
       />
       <Stack.Screen
+        name="settings/familySettings"
+        options={{
+          headerShown: true,
+          title: "Семья",
+          headerBackTitle: "Настройки",
+        }}
+      />
+      <Stack.Screen
         name="modals/choreModal"
         options={{ presentation: "modal", title: "Complete chore" }}
+      />
+      <Stack.Screen
+        name="main/allChores"
+        options={{
+          headerShown: true,
+          title: "Все домашние дела",
+          headerBackTitle: "назад",
+        }}
+      />
+      <Stack.Screen
+        name="main/allCompletions"
+        options={{
+          headerShown: true,
+          title: "Истрия выполнений",
+          headerBackTitle: "назад",
+        }}
       />
     </Stack>
   );

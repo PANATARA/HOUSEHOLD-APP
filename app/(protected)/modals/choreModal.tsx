@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import {
   Button,
   Keyboard,
@@ -12,7 +12,7 @@ import {
   View,
 } from "react-native";
 
-import { getChoresCompletion } from "@/api/chore";
+import { createChoreCompletion, getChoresCompletion } from "@/api/chore";
 import Block from "@/components/Block";
 import { ChoreHistoryCard } from "@/components/chores";
 import { ChoreCompletionResponse } from "@/types/chores";
@@ -33,14 +33,17 @@ export default function ChoreModalScreen() {
     ChoreCompletionResponse[] | null
   >(null);
 
-  const handleSubmit = () => {
-    console.log("Выполнено:", text);
-    setText("");
+  const handleSubmit = async () => {
+    const response = await createChoreCompletion(id, text);
+    if (response) {
+      setText("");
+      router.back();
+    }
   };
 
-  const handleCancel = () => {
-    console.log("Отменено");
+  const handleCancel = async () => {
     setText("");
+    router.back();
   };
 
   useEffect(() => {

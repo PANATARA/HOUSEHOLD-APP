@@ -1,16 +1,11 @@
-import { getChores, getChoresCompletion, getChoresConfirmations } from "@/api/chore";
+import { getChores, getChoresCompletion } from "@/api/chore";
 import { getMeFamily } from "@/api/family";
 import Avatar from "@/components/avatar";
 import Block from "@/components/Block";
-import ConfirmationCard, { ChoreHistoryCard, ChoreItem } from "@/components/chores";
+import { ChoreHistoryCard, ChoreItem } from "@/components/chores";
 import { PressableText } from "@/components/pressableText";
 import { topMembers } from "@/constants/fakeData";
-import {
-  ChoreCompletionResponse,
-  ChoreConfirmationResponse,
-  Chores,
-  StatusType,
-} from "@/types/chores";
+import { ChoreCompletionResponse, Chores } from "@/types/chores";
 import { FamilyMembersResponse } from "@/types/family";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { router, useFocusEffect } from "expo-router";
@@ -32,9 +27,9 @@ export default function HomeScreen() {
   const [choresHistoryData, setChoresHistoryData] = useState<
     ChoreCompletionResponse[] | null
   >(null);
-  const [choresConfirmData, setchoresConfirmData] = useState<
-    ChoreConfirmationResponse[] | null
-  >(null);
+  // const [choresConfirmData, setchoresConfirmData] = useState<
+  //   ChoreConfirmationResponse[] | null
+  // >(null);
 
   const fetchData = async () => {
     const responseFamily = await getMeFamily();
@@ -42,12 +37,13 @@ export default function HomeScreen() {
     const responseChores = await getChores();
     setChoresData(responseChores);
     const responseChoresHistory = await getChoresCompletion({
+      status: "approved",
       offset: 0,
       limit: 5,
     });
     setChoresHistoryData(responseChoresHistory);
-    const responseChoresConfirm = await getChoresConfirmations(StatusType.AWAITS);
-    setchoresConfirmData(responseChoresConfirm);
+    // const responseChoresConfirm = await getChoresConfirmations(StatusType.AWAITS);
+    // setchoresConfirmData(responseChoresConfirm);
   };
 
   useFocusEffect(
@@ -147,6 +143,7 @@ export default function HomeScreen() {
               <ChoreItem key={item.id} chore={item} />
             ))}
           </View>
+          <PressableText to="main/allChores">Показать всё</PressableText>
         </Block>
         <Block
           blockTitle="История заданий"
@@ -157,9 +154,9 @@ export default function HomeScreen() {
               <ChoreHistoryCard key={item.id} item={item} />
             ))}
           </View>
-          <PressableText to="modals/newmodal">Показать всё</PressableText>
+          <PressableText to="main/allCompletions">Показать всё</PressableText>
         </Block>
-        <Block
+        {/* <Block
           blockTitle="Необходимо подтвердить"
           style={{ backgroundColor: null, padding: 0, margin: 6 }}
         >
@@ -175,7 +172,7 @@ export default function HomeScreen() {
             ))}
           </View>
           <PressableText to="/modals/modal">Показать всё</PressableText>
-        </Block>
+        </Block> */}
       </ScrollView>
     </SafeAreaView>
   );

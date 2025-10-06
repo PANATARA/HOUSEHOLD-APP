@@ -21,7 +21,7 @@ function SettingsCard() {
       label: "Family settings",
       icon: <Ionicons name="people" color="white" style={stylesSettings.icon} />,
       bgColor: "#4D9DE0",
-      route: "/",
+      route: "settings/familySettings",
     },
     {
       label: "Account settings",
@@ -74,7 +74,7 @@ function SettingsCard() {
           key={index}
           style={[stylesSettings.button]}
           activeOpacity={0.7}
-          onPress={() => item.route && router.navigate("/")}
+          onPress={() => router.navigate(item.route as never)}
         >
           <View style={stylesSettings.content}>
             <View
