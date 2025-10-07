@@ -18,13 +18,13 @@ function SettingsCard() {
     route: string;
   }[] = [
     {
-      label: "Family settings",
+      label: "Семья",
       icon: <Ionicons name="people" color="white" style={stylesSettings.icon} />,
       bgColor: "#4D9DE0",
       route: "settings/familySettings",
     },
     {
-      label: "Account settings",
+      label: "Аккаунт",
       icon: (
         <MaterialIcons
           name="manage-accounts"
@@ -33,36 +33,18 @@ function SettingsCard() {
         />
       ),
       bgColor: "#FFA630",
-      route: "/",
+      route: "settings/userSettings",
     },
     {
-      label: "Notifications",
+      label: "Уведомления",
       icon: <Ionicons name="notifications" color="white" style={stylesSettings.icon} />,
       bgColor: "#E15554",
       route: "/",
     },
     {
-      label: "Language",
-      icon: <Ionicons name="language" color="white" style={stylesSettings.icon} />,
+      label: "Приложение",
+      icon: <Ionicons name="menu" color="white" style={stylesSettings.icon} />,
       bgColor: "#7768AE",
-      route: "/",
-    },
-    {
-      label: "App Theme",
-      icon: <Ionicons name="moon" color="#fff" style={stylesSettings.icon} />,
-      bgColor: "#364156",
-      route: "/",
-    },
-    {
-      label: "Household Premium",
-      icon: <Ionicons name="star" color="white" style={stylesSettings.icon} />,
-      bgColor: "#FFD23F",
-      route: "/",
-    },
-    {
-      label: "About us",
-      icon: <Ionicons name="help-circle" color="white" style={stylesSettings.icon} />,
-      bgColor: "#1F2A44",
       route: "/",
     },
   ];
@@ -123,7 +105,7 @@ const stylesSettings = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     marginTop: 10,
-    backgroundColor: "#969696ff",
+    backgroundColor: "#a1a1a1ff",
   },
   content: {
     flexDirection: "row",

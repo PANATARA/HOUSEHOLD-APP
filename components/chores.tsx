@@ -84,6 +84,7 @@ export function ChoreHistoryCard({ item }: { item: ChoreCompletionResponse }) {
           {item.completed_by.name} {item.completed_by.surname}
         </Text>
         <Text style={styles_2.date}>{date}</Text>
+        <Text style={styles_2.message}>{item.message}</Text>
       </TouchableOpacity>
       <View style={{ flex: 1 }} />
       <View style={styles_2.iconContainer}>

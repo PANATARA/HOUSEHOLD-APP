@@ -4,20 +4,12 @@ import Avatar from "@/components/avatar";
 import Block from "@/components/Block";
 import { ChoreHistoryCard, ChoreItem } from "@/components/chores";
 import { PressableText } from "@/components/pressableText";
-import { topMembers } from "@/constants/fakeData";
 import { ChoreCompletionResponse, Chores } from "@/types/chores";
 import { FamilyMembersResponse } from "@/types/family";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { router, useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
-import {
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
@@ -104,7 +96,7 @@ export default function HomeScreen() {
             </View>
           </View>
         </Block>
-        <Block blockTitle="Лидеры недели">
+        {/* <Block blockTitle="Лидеры недели">
           <View style={styles_2.MainCard}>
             {topMembers.map((member, index) => {
               return (
@@ -133,7 +125,7 @@ export default function HomeScreen() {
               );
             })}
           </View>
-        </Block>
+        </Block> */}
         <Block
           blockTitle="Домашние дела"
           style={{ backgroundColor: null, padding: 0, margin: 6 }}

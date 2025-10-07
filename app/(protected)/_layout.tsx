@@ -34,6 +34,14 @@ export default function ProtectedLayout() {
         }}
       />
       <Stack.Screen
+        name="settings/userSettings"
+        options={{
+          headerShown: true,
+          title: "Настройки аккаунта",
+          headerBackTitle: "Настройки",
+        }}
+      />
+      <Stack.Screen
         name="modals/choreModal"
         options={{ presentation: "modal", title: "Complete chore" }}
       />
