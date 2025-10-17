@@ -30,17 +30,6 @@ export async function updateMeSettings(
   return response.data;
 }
 
-export async function getUserAvatar(
-  user_id: string,
-): Promise<{ avatar_url: string | null }> {
-  const response = await api.get<{ avatar_url: string | null }>(
-    `/users/${user_id}/avatar`,
-  );
-  return {
-    avatar_url: response.data.avatar_url,
-  };
-}
-
 export async function uploadAvatar(payload: UserUploadAvatar): Promise<User> {
   const formData = new FormData();
   formData.append("file", {

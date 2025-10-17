@@ -1,5 +1,6 @@
 import { getMeProfile, updateMeProfile } from "@/api/user";
 import Avatar from "@/components/avatar";
+import { UserProfile } from "@/types/user";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useFocusEffect } from "expo-router";
@@ -17,6 +18,7 @@ import {
 export default function EditProfileScreen() {
   const [showPicker, setShowPicker] = useState(false);
 
+  const [userData, setUserData] = useState<UserProfile | null>(null);
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [username, setUsername] = useState("");
@@ -25,6 +27,7 @@ export default function EditProfileScreen() {
   const fetchData = async () => {
     try {
       const response = await getMeProfile();
+      setUserData(response);
       setName(response.user.name || "");
       setSurname(response.user.surname || "");
       setUsername(response.user.username || "");
@@ -52,7 +55,13 @@ export default function EditProfileScreen() {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.avatarSection}>
         <TouchableOpacity>
-          <Avatar size={120} url={undefined} is_pressable={true} />
+          <Avatar
+            size={120}
+            object_id={userData?.user.id}
+            object_type="user"
+            avatar_version={userData?.user.avatar_version}
+            is_pressable={true}
+          />
           <View style={styles.cameraIcon}>
             <Ionicons name="camera" size={18} color="#fff" />
           </View>

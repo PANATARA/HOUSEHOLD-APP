@@ -66,10 +66,15 @@ export function ChoreHistoryCard({ item }: { item: ChoreCompletionResponse }) {
   };
 
   const date = new Date(item.completed_at).toLocaleDateString("timezone", options);
-
   return (
     <View style={styles_2.choreCard}>
-      <Avatar size={50} url={undefined} is_pressable={false} />
+      <Avatar
+        size={50}
+        object_id={item.completed_by.id}
+        avatar_version={item.completed_by.avatar_version}
+        object_type="user"
+        is_pressable={false}
+      />
       <TouchableOpacity
         style={{
           flexShrink: 1,

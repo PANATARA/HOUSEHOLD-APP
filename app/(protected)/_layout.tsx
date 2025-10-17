@@ -1,6 +1,7 @@
 import { AuthContext } from "@/utils/authContext";
-import { Redirect, Stack } from "expo-router";
+import { Redirect, router, Stack } from "expo-router";
 import { useContext } from "react";
+import { Text, TouchableOpacity } from "react-native";
 
 export const unstable_settings = {
   initialRouteName: "(tabs)", // anchor
@@ -46,11 +47,25 @@ export default function ProtectedLayout() {
         options={{ presentation: "modal", title: "Complete chore" }}
       />
       <Stack.Screen
+        name="modals/addChoreModal"
+        options={{ presentation: "modal", title: "Complete chore" }}
+      />
+      <Stack.Screen
         name="main/allChores"
         options={{
           headerShown: true,
           title: "Все домашние дела",
           headerBackTitle: "назад",
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                router.push("/modals/addChoreModal");
+              }}
+              style={{ marginRight: 0 }}
+            >
+              <Text style={{ fontSize: 30, color: "#007AFF" }}>+</Text>
+            </TouchableOpacity>
+          ),
         }}
       />
       <Stack.Screen

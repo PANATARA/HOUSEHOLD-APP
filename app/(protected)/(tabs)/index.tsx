@@ -70,7 +70,9 @@ export default function HomeScreen() {
           <View style={styles_1.familyCard}>
             <Avatar
               size={90}
-              url={familyData?.family.avatar_url}
+              object_id={familyData?.family.id}
+              object_type="family"
+              avatar_version={1}
               is_pressable={true}
               onPress={() => {
                 router.navigate("/");
@@ -81,16 +83,16 @@ export default function HomeScreen() {
               <Text style={styles_1.familyName}>{familyData?.family.name}</Text>
               <View style={styles_1.statItem}>
                 <View style={styles_1.statRow}>
-                  <Text style={styles_1.statLabel}>Общий опыт семьи:</Text>
-                  <Text style={styles_1.statValue}>3987</Text>
+                  <Text style={styles_1.statLabel}>--- --- --- --- --- ---</Text>
+                  <Text style={styles_1.statValue}>--</Text>
                 </View>
                 <View style={styles_1.statRow}>
-                  <Text style={styles_1.statLabel}>Выполнено дел за неделю:</Text>
-                  <Text style={styles_1.statValue}>14</Text>
+                  <Text style={styles_1.statLabel}>--- --- --- --- --- ---</Text>
+                  <Text style={styles_1.statValue}>--</Text>
                 </View>
                 <View style={styles_1.statRow}>
-                  <Text style={styles_1.statLabel}>Выполнено за месяц:</Text>
-                  <Text style={styles_1.statValue}>43</Text>
+                  <Text style={styles_1.statLabel}>--- --- --- --- --- ---</Text>
+                  <Text style={styles_1.statValue}>--</Text>
                 </View>
               </View>
             </View>

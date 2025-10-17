@@ -25,6 +25,7 @@ export default function HomeScreen() {
       style={{ flex: 1 }}
       contentContainerStyle={[
         {
+          alignItems: "center",
           paddingBottom: 30,
         },
       ]}
@@ -45,7 +46,7 @@ const styles_3 = StyleSheet.create({
   choresWrapper: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 8,
+    gap: 7,
     justifyContent: "space-between",
   },
 });

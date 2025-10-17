@@ -3,6 +3,7 @@ export interface User {
   username: string;
   name: string;
   surname: string;
+  avatar_version: number;
 }
 
 export interface UserProfile {

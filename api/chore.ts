@@ -1,5 +1,6 @@
 import { api } from "@/api/client";
 import {
+  Chore,
   ChoreCompletionParams,
   ChoreCompletionResponse,
   ChoreConfirmationResponse,
@@ -50,4 +51,19 @@ export async function createChoreCompletion(
 ): Promise<boolean> {
   const response = await api.post(`/chores-completions/${chore_id}`, { message });
   return response.status >= 200 && response.status < 300;
+}
+
+export async function createChore(
+  name: string,
+  description: string,
+  icon: string,
+  valuation: number,
+): Promise<Chore> {
+  const response = await api.post<Chore>(`/chores`, {
+    name,
+    description,
+    icon,
+    valuation,
+  });
+  return response.data;
 }
