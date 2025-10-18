@@ -72,7 +72,7 @@ export default function HomeScreen() {
               size={90}
               object_id={familyData?.family.id}
               object_type="family"
-              avatar_version={1}
+              avatar_version={familyData?.family.avatar_version}
               is_pressable={true}
               onPress={() => {
                 router.navigate("/");
@@ -232,7 +232,7 @@ const styles_3 = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
 });
 

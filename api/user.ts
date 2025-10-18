@@ -30,7 +30,7 @@ export async function updateMeSettings(
   return response.data;
 }
 
-export async function uploadAvatar(payload: UserUploadAvatar): Promise<User> {
+export async function uploadUserAvatar(payload: UserUploadAvatar): Promise<User> {
   const formData = new FormData();
   formData.append("file", {
     uri: payload.file.uri,

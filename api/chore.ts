@@ -67,3 +67,8 @@ export async function createChore(
   });
   return response.data;
 }
+
+export async function deleteChore(chore_id: string): Promise<number> {
+  const response = await api.delete(`/chores${chore_id}`);
+  return response.status;
+}

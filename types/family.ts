@@ -7,7 +7,7 @@ export interface Family {
   id: string;
   name: string;
   icon: string;
-  avatar_url: string;
+  avatar_version: number;
 }
 
 export interface Member {

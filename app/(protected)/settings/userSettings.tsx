@@ -1,6 +1,7 @@
 import { getMeProfile, updateMeProfile } from "@/api/user";
 import Avatar from "@/components/avatar";
 import { UserProfile } from "@/types/user";
+import { UploadAvatarAsync } from "@/utils/uploadAvatar";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useFocusEffect } from "expo-router";
@@ -61,6 +62,7 @@ export default function EditProfileScreen() {
             object_type="user"
             avatar_version={userData?.user.avatar_version}
             is_pressable={true}
+            onPress={async () => UploadAvatarAsync("user")}
           />
           <View style={styles.cameraIcon}>
             <Ionicons name="camera" size={18} color="#fff" />

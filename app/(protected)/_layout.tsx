@@ -44,7 +44,10 @@ export default function ProtectedLayout() {
       />
       <Stack.Screen
         name="modals/choreModal"
-        options={{ presentation: "modal", title: "Complete chore" }}
+        options={{
+          presentation: "modal",
+          title: "Выполнить задание",
+        }}
       />
       <Stack.Screen
         name="modals/addChoreModal"

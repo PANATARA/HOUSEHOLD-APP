@@ -1,5 +1,6 @@
-import { router, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import {
+  Alert,
   Button,
   Keyboard,
   KeyboardAvoidingView,
@@ -8,17 +9,20 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
 
-import { createChoreCompletion, getChoresCompletion } from "@/api/chore";
+import { createChoreCompletion, deleteChore, getChoresCompletion } from "@/api/chore";
 import Block from "@/components/Block";
 import { ChoreHistoryCard } from "@/components/chores";
 import { ChoreCompletionResponse } from "@/types/chores";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 
 export default function ChoreModalScreen() {
+  const router = useRouter();
   const { id, name, description, icon, valuation } = useLocalSearchParams<{
     id: string;
     name: string;
@@ -46,6 +50,24 @@ export default function ChoreModalScreen() {
     router.back();
   };
 
+  const handleDelete = async () => {
+    Alert.alert("Удалить задание?", "Это действие нельзя отменить.", [
+      { text: "Отмена", style: "cancel" },
+      {
+        text: "Удалить",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            await deleteChore(id);
+            router.back();
+          } catch (err) {
+            console.error(err);
+          }
+        },
+      },
+    ]);
+  };
+
   useEffect(() => {
     const fetchChore = async () => {
       if (!id) return;
@@ -61,56 +83,72 @@ export default function ChoreModalScreen() {
   }, [id]);
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView
-        style={{ flex: 1, backgroundColor: "#f1f1f1" }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
-        <ScrollView
-          contentContainerStyle={{
-            padding: 16,
-            paddingBottom: 100,
-            alignItems: "center",
-          }}
-          keyboardShouldPersistTaps="handled"
+    <>
+      <Stack.Screen
+        options={{
+          title: "Выполнить задание",
+          presentation: "modal",
+          headerRight: () => (
+            <TouchableOpacity onPress={handleDelete}>
+              <MaterialIcons
+                name="delete-forever"
+                style={{ fontSize: 25, color: "#ff5757ff" }}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAvoidingView
+          style={{ flex: 1, backgroundColor: "#f1f1f1" }}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
-          <Block style={styles_1.profileCard}>
-            <Text style={styles_1.profileIcon}>{icon}</Text>
-            <Text style={styles_1.profileName}>{name}</Text>
-            {description && (
-              <Text style={styles_1.profileDescription}>{description}</Text>
-            )}
-            <View style={styles_1.profileValuationWrapper}>
-              <Text style={styles_1.profileValuation}>
-                {valuation ? `${valuation} XP` : "—"}
-              </Text>
-            </View>
-            <Text style={styles_1.profileLastCompleteText}>Последнее выполнение</Text>
-            {choresHistoryData?.map((item) => (
-              <ChoreHistoryCard key={item.id} item={item} />
-            ))}
-          </Block>
+          <ScrollView
+            contentContainerStyle={{
+              padding: 16,
+              paddingBottom: 100,
+              alignItems: "center",
+            }}
+            keyboardShouldPersistTaps="handled"
+          >
+            <Block style={styles_1.profileCard}>
+              <Text style={styles_1.profileIcon}>{icon}</Text>
+              <Text style={styles_1.profileName}>{name}</Text>
+              {description && (
+                <Text style={styles_1.profileDescription}>{description}</Text>
+              )}
+              <View style={styles_1.profileValuationWrapper}>
+                <Text style={styles_1.profileValuation}>
+                  {valuation ? `${valuation} XP` : "—"}
+                </Text>
+              </View>
+              <Text style={styles_1.profileLastCompleteText}>Последнее выполнение</Text>
+              {choresHistoryData?.map((item) => (
+                <ChoreHistoryCard key={item.id} item={item} />
+              ))}
+            </Block>
 
-          <View style={{ marginTop: 16 }}>
-            <TextInput
-              style={styles_2.input}
-              placeholder="Введите комментарий..."
-              value={text}
-              onChangeText={setText}
-              multiline
-            />
-            <View style={styles_2.buttonsWrapper}>
-              <View style={styles_2.button}>
-                <Button title="Отменить" onPress={handleCancel} color="#FF3B30" />
-              </View>
-              <View style={styles_2.button}>
-                <Button title="Выполнить" onPress={handleSubmit} color="#4CAF50" />
+            <View style={{ marginTop: 16 }}>
+              <TextInput
+                style={styles_2.input}
+                placeholder="Введите комментарий..."
+                value={text}
+                onChangeText={setText}
+                multiline
+              />
+              <View style={styles_2.buttonsWrapper}>
+                <View style={styles_2.button}>
+                  <Button title="Отменить" onPress={handleCancel} color="#FF3B30" />
+                </View>
+                <View style={styles_2.button}>
+                  <Button title="Выполнить" onPress={handleSubmit} color="#4CAF50" />
+                </View>
               </View>
             </View>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </>
   );
 }
 
