@@ -69,7 +69,7 @@ export default function HomeScreen() {
         <Block>
           <View style={styles_1.familyCard}>
             <Avatar
-              size={90}
+              size={120}
               object_id={familyData?.family.id}
               object_type="family"
               avatar_version={familyData?.family.avatar_version}
@@ -78,24 +78,7 @@ export default function HomeScreen() {
                 router.navigate("/");
               }}
             />
-
-            <View style={styles_1.familyInfoWrapper}>
-              <Text style={styles_1.familyName}>{familyData?.family.name}</Text>
-              <View style={styles_1.statItem}>
-                <View style={styles_1.statRow}>
-                  <Text style={styles_1.statLabel}>--- --- --- --- --- ---</Text>
-                  <Text style={styles_1.statValue}>--</Text>
-                </View>
-                <View style={styles_1.statRow}>
-                  <Text style={styles_1.statLabel}>--- --- --- --- --- ---</Text>
-                  <Text style={styles_1.statValue}>--</Text>
-                </View>
-                <View style={styles_1.statRow}>
-                  <Text style={styles_1.statLabel}>--- --- --- --- --- ---</Text>
-                  <Text style={styles_1.statValue}>--</Text>
-                </View>
-              </View>
-            </View>
+            <Text style={styles_1.familyName}>{familyData?.family.name}</Text>
           </View>
         </Block>
         {/* <Block blockTitle="Лидеры недели">
@@ -174,33 +157,11 @@ export default function HomeScreen() {
 
 const styles_1 = StyleSheet.create({
   familyCard: {
-    flexDirection: "row",
-    gap: 8,
-  },
-  familyInfoWrapper: {
-    flex: 1,
+    alignItems: "center",
+    flexDirection: "column",
   },
   familyName: {
     fontSize: 30,
-    fontWeight: "700",
-  },
-  statItem: {
-    flexDirection: "column",
-    gap: 8,
-  },
-  statRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  statLabel: {
-    color: "gray",
-    fontSize: 17,
-    fontWeight: "500",
-  },
-  statValue: {
-    color: "gray",
-    fontSize: 17,
     fontWeight: "700",
   },
 });

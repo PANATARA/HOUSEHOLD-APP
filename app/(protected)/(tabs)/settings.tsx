@@ -87,10 +87,11 @@ export default function ProfileSettingsScreen() {
   return (
     <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
       <ProfileCard
+        id={userProfileData?.user.id}
         name={userProfileData?.user.name}
         surname={userProfileData?.user?.surname}
         username={userProfileData?.user?.username}
-        avatar_url={undefined}
+        avatar_url={userProfileData?.user?.avatar_version}
       />
       <SettingsCard />
     </SafeAreaView>

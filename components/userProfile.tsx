@@ -5,22 +5,30 @@ import Block from "./Block";
 import Avatar from "./avatar";
 
 type ProfileCardProps = {
+  id: string;
   name?: string;
   surname?: string;
   username?: string;
-  avatar_url?: string;
+  avatar_version?: number;
 };
 
 export default function ProfileCard({
+  id,
   name,
   surname,
   username,
-  avatar_url,
+  avatar_version,
 }: ProfileCardProps) {
   return (
     <Block style={{ alignItems: "center" }}>
       <View>
-        <Avatar size={110} url={avatar_url} is_pressable={false} />
+        <Avatar
+          size={120}
+          object_id={id}
+          object_type="user"
+          avatar_version={avatar_version}
+          is_pressable={false}
+        />
       </View>
       <View style={styles.userInfoView}>
         <Text style={styles.userName}>

@@ -29,7 +29,7 @@ export default function TabLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => (
-            <IconSymbol name="gearshape.2.fill" size={24} color="black" />
+            <IconSymbol name="gearshape.2.fill" size={24} color={color} />
           ),
         }}
       />
